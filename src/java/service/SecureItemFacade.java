@@ -7,6 +7,8 @@ package service;
 
 import bean.Secure;
 import bean.SecureItem;
+import bean.User;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -30,6 +32,8 @@ public class SecureItemFacade extends AbstractFacade<SecureItem> {
 
     @EJB
     private SecureFacade secureFacade;
+    @EJB
+    private UserFacade userFacade;
 
     public SecureItemFacade() {
         super(SecureItem.class);
@@ -80,5 +84,18 @@ public class SecureItemFacade extends AbstractFacade<SecureItem> {
     }
     
     
+    
+    public List<SecureItem> secureItemOfConnectedUser(){
+        User user = userFacade.findByUsername("User"); // This is just a Test, Session Recommanded
+        if(user != null && user.getSecure() != null ){
+            List<SecureItem> results = new ArrayList<>();
+            results = findBySecure(user.getSecure());
+            if(results != null && !results.isEmpty()){
+                return results;
+            }
+        }
+        
+        return new ArrayList<>();
+    }
 
 }

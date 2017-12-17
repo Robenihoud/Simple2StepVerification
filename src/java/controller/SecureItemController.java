@@ -58,15 +58,8 @@ public class SecureItemController implements Serializable {
         User user = userFacade.findByUsername("User"); // Recommanded to do Session
         if (user != null) {
             if (user.getSecure() != null) {
-                List<SecureItem> secureItems = ejbFacade.findBySecure(user.getSecure());
-                if (!secureItems.isEmpty()) {
-                    items = secureItems;
-                    for(SecureItem item : items){
-                        item.setResponse("");
-                    }
-                    return true;
-                }
-                return false;
+                
+                return true;
             }
             return false;
         }
@@ -95,13 +88,16 @@ public class SecureItemController implements Serializable {
         // Refers to another Page
         // Empty Table
         items.clear();
-        items = new ArrayList<>();
+        items =null;
     }
 
     //*** Table Add Question ***//
     //*************//
     //**** Add Secure Question ****//
     //*****************************//
+    
+    
+    
     //**** Verification Secure Question ****//
     
     private List<SecureItem> elems;
@@ -124,44 +120,46 @@ public class SecureItemController implements Serializable {
         User user = userFacade.findByUsername("User"); // Recommanded to do Session
         if (user != null) {
             if (user.getSecure() != null) {
-                List<SecureItem> secureItems = ejbFacade.findBySecure(user.getSecure());
-                if (!secureItems.isEmpty()) {
-                    elems = secureItems;
-                    for(SecureItem item : elems){
-                        item.setResponse("");
-                    }
+               
                     return true;
                 }
                 return false;
             }
             return false;
         }
-        return false;
-    }
+   
+    
+   
 
     public void validate() {
         if (elems.isEmpty()) {
-            if (secureFacade.verification()) {
-                // refers to a Seccuessful Page 
-                System.out.println("Verification : Correct");
+            System.out.println("Verification : ");
+            if (!secureFacade.verification()) {
+                // refers to a Failed Page 
+                System.out.println("Not");
             }
-            System.out.println("Not");
+            System.out.println("Correct");
             elems = new ArrayList<>();
-            // refers to a Failed Page
+            // refers to a Successful Page
         }
     }
     public List<SecureItem> getElems() {
         if(elems == null){
-            elems = new ArrayList<>();
+            elems = ejbFacade.secureItemOfConnectedUser();
+            if(!elems.isEmpty()){
+                for(SecureItem item : elems){
+                        item.setResponse("");
+                    }
+            }
         }
         return elems;
     }
 
-    //**** Verification Secure Question ****//
     public void setElems(List<SecureItem> elems) {
         this.elems = elems;
     }
 
+    //**** Verification Secure Question ****//
     //**************************************//
     public SecureItem getSelected() {
         if (selected == null) {
@@ -211,7 +209,8 @@ public class SecureItemController implements Serializable {
 
     public List<SecureItem> getItems() {
         if (items == null) {
-            items = getFacade().findAll();
+           // items = getFacade().findAll();
+            items = ejbFacade.secureItemOfConnectedUser();
         }
         return items;
     }

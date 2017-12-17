@@ -24,7 +24,7 @@
             </h:form>
 
         
-        <h:form id="secureListForm" rendered="#{!secureItemController.hasUserSecureItem()}">
+        <h:form id="secureListForm">
                 <h1><h:outputText value="List"/></h1>
                 <p:dataTable id="secureList" value="#{secureItemController.items}" var="item">
                     <p:column>
