@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Inscription</title>
+    </h:head>
+    <h:body>
+
+        <h:form id="inscriptionForm">
+            <h1><h:outputText value="Sign in / Sign up "/></h1>
+            <p:panelGrid columns="2">
+                <p:outputLabel value="Username:" for="username" />
+                <p:inputText id="username" value="#{userController.selected.username}" title="Username" />
+                <p:outputLabel value="Password:" for="password" />
+                <p:inputText id="password" value="#{userController.typedPassword}" title="Password" />
+            </p:panelGrid>
+            <p:commandButton id="signUp" value="Sign up" actionListener="#{userController.inscription()}" update="message"></p:commandButton>
+            <p:commandButton id="signIn" value="Sign in" actionListener="#{userController.connectionUser()}" update="message"></p:commandButton>
+        <h:outputText id="message" value="#{userController.message}" ></h:outputText>
+        </h:form>
+
+    </h:body>
+</html>
+

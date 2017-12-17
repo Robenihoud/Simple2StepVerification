@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Verification</title>
+    </h:head>
+    <h:body>
+
+
+        <h:form id="secureForm" rendered="#{secureItemController.hasSecureItemVerification()}">
+            <h1><h:outputText value="List"/></h1>
+            <p:dataTable id="secureList" value="#{secureItemController.elems}" var="item">
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Question"/>
+                    </f:facet>
+                    <h:outputText value="#{item.question}"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Response"/>
+                    </f:facet>
+                    <p:inputText placeholder="TYPE YOUR REPONSE" value="#{item.response}"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Check"/>
+                    </f:facet>
+                    <p:commandButton value="Check" actionListener="#{secureItemController.checkAnswer(item)}" update=":secureForm:secureList :secureForm:secureList:valbtn" />
+                    <p:commandButton value="Not Valid" actionListener="#{secureItemController.notValid(item)}" update=":secureForm:secureList :secureForm:secureList:valbtn"/>
+                </p:column>
+                <f:facet id="vldface" name="footer">
+                    <p:commandButton id="valbtn" value="VALIDATE" actionListener="#{secureItemController.validate()}"  disabled="#{!empty secureItemController.elems}" />
+                </f:facet>
+            </p:dataTable>
+        </h:form>
+
+
+    </h:body>
+</html>
+
